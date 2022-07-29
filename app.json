@@ -1,0 +1,25 @@
+{
+  "name": "plexDong",
+  "description": "Takes the current Plex (Tautulli) play count from a given user and generates an ASCII dong based on the amount.",
+  "keywords": [
+    "Tautulli", 
+    "plex",
+    "python"
+  ],
+  "repository": "https://github.com/poopi67/plexDong",
+  "logo": "https://raw.githubusercontent.com/poopi67/plexDong/main/static/dong.png",
+  "env": {
+    "api_token": {
+      "description": "API Token found in Settings > Web Interface",
+    },
+    "server_url": {
+      "description": "Server url to point to your Tautulli installation",
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "standard-1x"
+    }
+  }
+}
