@@ -1,19 +1,34 @@
-#Create a ubuntu base image with python 3 installed.
-FROM python:3.8
+# Use a slim Alpine-based Python image
+FROM python:3.8-alpine
 
-#Set the working directory
-WORKDIR /
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
-#Copy all the files
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apk update && apk add --no-cache \
+    build-base \
+    gcc \
+    musl-dev \
+    libffi-dev \
+    openssl-dev \
+    python3-dev \
+    postgresql-dev \
+    linux-headers \
+    bash
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy rest of the app
 COPY . .
 
-#Install the dependencies
-RUN apt-get -y update
-RUN apt-get update && apt-get install -y python python3-pip
-RUN pip3 install -r requirements.txt
-
-#Expose the required port
+# Expose the app port
 EXPOSE $PORT
 
-#Run the command
-CMD gunicorn wsgi:app
+# Start the app
+CMD ["gunicorn", "wsgi:app"]
