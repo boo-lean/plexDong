@@ -38,7 +38,7 @@ RUN apk update && apk add --no-cache \
     bash
 
 # Copy installed dependencies from the build stage
-COPY --from=build /usr/lib/python3.8/site-packages /usr/lib/python3.8/site-packages
+COPY --from=build /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.8/site-packages
 
 # Copy the rest of the app
 COPY . .
