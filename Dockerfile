@@ -31,11 +31,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Set working directory
 WORKDIR /app
 
-# Install only runtime dependencies (minimal, no build tools)
+# Install runtime dependencies
 RUN apk update && apk add --no-cache \
     libffi-dev \
     openssl-dev \
     bash
+
+# Install gunicorn in the final runtime image
+RUN pip install gunicorn
 
 # Copy installed dependencies from the build stage
 COPY --from=build /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.8/site-packages
@@ -43,7 +46,7 @@ COPY --from=build /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.
 # Copy the rest of the app
 COPY . .
 
-# Expose the app port (default)
+# Expose the app port
 EXPOSE 8787
 
 # Start the app with gunicorn binding to 0.0.0.0
